@@ -24,3 +24,7 @@ Thumbs.db
 .vscode/
 *.local.json
 *.log
+
+# Celery Beat runtime schedule (regenerated at runtime)
+backend/celerybeat-schedule*
+celerybeat-schedule*

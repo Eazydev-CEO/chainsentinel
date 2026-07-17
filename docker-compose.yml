@@ -1,0 +1,145 @@
+# ChainSentinel — development stack
+# Usage: cp .env.example .env  →  docker compose up --build
+# Frontend :3026 · API :8212 · Swagger /api/v1/docs/ · Admin /admin/
+name: chainsentinel
+
+x-backend-env: &backend-env
+  env_file: .env
+  environment:
+    DJANGO_SETTINGS_MODULE: config.settings.development
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: "5432"
+    REDIS_URL: redis://redis:6379/0
+    CELERY_BROKER_URL: redis://redis:6379/1
+    CELERY_RESULT_BACKEND: redis://redis:6379/2
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-chainsentinel}
+      POSTGRES_USER: ${POSTGRES_USER:-chainsentinel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chainsentinel-dev}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Host port 55432 avoids clashes with local Postgres installs and
+      # Windows reserved port ranges. Local tooling only; never expose publicly.
+      - "127.0.0.1:55432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chainsentinel}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "127.0.0.1:63790:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        REQUIREMENTS: development.txt
+    <<: *backend-env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.development
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      RUN_MIGRATIONS: "true"
+    command: python manage.py runserver 0.0.0.0:8212
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8212:8212"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8212/healthz/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  celery_worker:
+    build:
+      context: ./backend
+      args:
+        REQUIREMENTS: development.txt
+    <<: *backend-env
+    command: celery -A config worker -l info -Q default,engine,delivery --concurrency=4
+    volumes:
+      - ./backend:/app
+    depends_on:
+      backend:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A config inspect ping -d celery@$$HOSTNAME | grep -q pong"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  celery_beat:
+    build:
+      context: ./backend
+      args:
+        REQUIREMENTS: development.txt
+    <<: *backend-env
+    command: celery -A config beat -l info
+    volumes:
+      - ./backend:/app
+    depends_on:
+      backend:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    # Dev runs with --turbopack: Next 15.5's *webpack* dev scanner mis-resolves
+    # the app router through Docker-Desktop Windows bind mounts (every route
+    # renders __next_error__ / "missing <html>"). Turbopack scans it correctly.
+    image: node:24-bookworm-slim
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run dev"
+    environment:
+      API_INTERNAL_URL: http://backend:8212
+      NEXT_TELEMETRY_DISABLED: "1"
+      # Reliable file-change detection through the Windows bind mount
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+      # Keep container dev builds isolated from any host `npm run build` output.
+      - frontend_next_cache:/app/.next
+    ports:
+      - "3026:3026"
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  postgres_data:
+  redis_data:
+  frontend_node_modules:
+  frontend_next_cache:

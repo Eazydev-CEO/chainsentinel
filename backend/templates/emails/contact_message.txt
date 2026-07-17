@@ -1,0 +1,6 @@
+Contact form message
+
+From: {{ name|default:"(no name)" }} <{{ email }}>
+Subject: {{ subject|default:"(none)" }}
+
+{{ message }}

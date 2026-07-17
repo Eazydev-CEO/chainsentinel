@@ -1,0 +1,11 @@
+Verify your ChainSentinel email
+
+Hi {{ user.first_name|default:user.email }},
+
+Confirm this email address to unlock monitor creation, webhooks and API keys:
+
+{{ link }}
+
+This link expires in {{ hours }} hours.
+
+If you didn't create a ChainSentinel account, ignore this email.

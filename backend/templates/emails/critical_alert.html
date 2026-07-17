@@ -1,0 +1,8 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#ff6b6b;font-size:18px;">🚨 {{ title }}</h2>
+<pre style="white-space:pre-wrap;font-family:inherit;color:#c6cede;background:#0e1420;border:1px solid #1f2a3d;border-radius:8px;padding:14px;margin:0 0 16px;">{{ body }}</pre>
+<p style="padding:6px 0 0;">
+  <a href="{{ frontend_url }}{{ link }}" style="background:#4f8cff;color:#ffffff;text-decoration:none;padding:11px 22px;border-radius:8px;font-weight:600;display:inline-block;">Open alert</a>
+</p>
+{% endblock %}

@@ -1,0 +1,9 @@
+You're invited to {{ workspace.name }} on ChainSentinel
+
+{{ invited_by }} invited you to join "{{ workspace.name }}" as {{ role }}.
+
+Accept the invitation (expires in 7 days):
+
+{{ link }}
+
+You'll need a ChainSentinel account registered with this email address.

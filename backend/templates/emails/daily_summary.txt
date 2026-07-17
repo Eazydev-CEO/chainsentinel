@@ -1,0 +1,9 @@
+Daily summary — {{ workspace.name }}
+
+Last 24 hours:
+  Events detected:    {{ events_count }}
+  Alerts triggered:   {{ alerts_count }}
+  Critical / High:    {{ critical_count }} / {{ high_count }}
+  Webhook deliveries: {{ webhook_ok }} / {{ webhook_total }} delivered
+
+Dashboard: {{ frontend_url }}/app

@@ -1,0 +1,7 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#e8ecf4;font-size:18px;">Contact form message</h2>
+<p><strong style="color:#e8ecf4;">From:</strong> {{ name|default:"(no name)" }} &lt;{{ email }}&gt;</p>
+<p><strong style="color:#e8ecf4;">Subject:</strong> {{ subject|default:"(none)" }}</p>
+<pre style="white-space:pre-wrap;font-family:inherit;color:#c6cede;background:#0e1420;border:1px solid #1f2a3d;border-radius:8px;padding:14px;">{{ message }}</pre>
+{% endblock %}

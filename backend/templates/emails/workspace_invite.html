@@ -1,0 +1,11 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#e8ecf4;font-size:18px;">You're invited to {{ workspace.name }}</h2>
+<p>{{ invited_by }} invited you to join the <strong style="color:#e8ecf4;">{{ workspace.name }}</strong> workspace on ChainSentinel as <strong style="color:#e8ecf4;">{{ role }}</strong>.</p>
+<p>ChainSentinel monitors wallets, tokens, approvals and smart contracts across EVM networks in real time.</p>
+<p style="padding:18px 0;">
+  <a href="{{ link }}" style="background:#4f8cff;color:#ffffff;text-decoration:none;padding:11px 22px;border-radius:8px;font-weight:600;display:inline-block;">Accept invitation</a>
+</p>
+<p>You'll need an account with this email address. The invitation expires in 7 days.</p>
+<p style="word-break:break-all;color:#8fa1c0;">{{ link }}</p>
+{% endblock %}

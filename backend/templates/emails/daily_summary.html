@@ -1,0 +1,26 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#e8ecf4;font-size:18px;">Daily summary — {{ workspace.name }}</h2>
+<p>Here's what ChainSentinel observed in the last 24 hours:</p>
+<table style="width:100%;border-collapse:collapse;margin:14px 0;">
+  <tr>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#8fa1c0;">Events detected</td>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#e8ecf4;font-weight:600;">{{ events_count }}</td>
+  </tr>
+  <tr>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#8fa1c0;">Alerts triggered</td>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#e8ecf4;font-weight:600;">{{ alerts_count }}</td>
+  </tr>
+  <tr>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#8fa1c0;">Critical / High</td>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#e8ecf4;font-weight:600;">{{ critical_count }} / {{ high_count }}</td>
+  </tr>
+  <tr>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#8fa1c0;">Webhook deliveries</td>
+    <td style="padding:10px;border:1px solid #1f2a3d;color:#e8ecf4;font-weight:600;">{{ webhook_ok }} / {{ webhook_total }} delivered</td>
+  </tr>
+</table>
+<p style="padding:6px 0 0;">
+  <a href="{{ frontend_url }}/app" style="background:#4f8cff;color:#ffffff;text-decoration:none;padding:11px 22px;border-radius:8px;font-weight:600;display:inline-block;">Open dashboard</a>
+</p>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#ff6b6b;font-size:18px;">🔌 RPC outage on {{ chain.name }}</h2>
+<p>All RPC providers for <strong style="color:#e8ecf4;">{{ chain.name }}</strong> are currently failing health checks.</p>
+<p>Block polling on this chain is paused until a provider recovers — events that occur during the outage will be picked up from the last checkpoint once connectivity returns, within the confirmation window.</p>
+<p style="padding:6px 0 0;">
+  <a href="{{ frontend_url }}/app/providers" style="background:#4f8cff;color:#ffffff;text-decoration:none;padding:11px 22px;border-radius:8px;font-weight:600;display:inline-block;">View provider health</a>
+</p>
+{% endblock %}

@@ -1,0 +1,8 @@
+Webhook delivery failing
+
+{{ body }}
+
+Endpoint: {{ endpoint.name }}
+Destination: {{ endpoint.url }}
+
+Review webhooks: {{ frontend_url }}/app/webhooks

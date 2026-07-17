@@ -1,0 +1,11 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<h2 style="margin:0 0 12px;color:#ffb84f;font-size:18px;">⚠ Webhook delivery failing</h2>
+<p>{{ body }}</p>
+<p>Endpoint: <strong style="color:#e8ecf4;">{{ endpoint.name }}</strong><br>
+Destination: <span style="color:#8fa1c0;word-break:break-all;">{{ endpoint.url }}</span></p>
+<p>You can inspect attempts and replay the delivery from the dashboard.</p>
+<p style="padding:6px 0 0;">
+  <a href="{{ frontend_url }}/app/webhooks" style="background:#4f8cff;color:#ffffff;text-decoration:none;padding:11px 22px;border-radius:8px;font-weight:600;display:inline-block;">Review webhooks</a>
+</p>
+{% endblock %}

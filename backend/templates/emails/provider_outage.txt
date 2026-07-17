@@ -1,0 +1,6 @@
+RPC outage on {{ chain.name }}
+
+All RPC providers for {{ chain.name }} are currently failing health checks.
+Polling resumes automatically from the last checkpoint when a provider recovers.
+
+Provider health: {{ frontend_url }}/app/providers

@@ -13,9 +13,13 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white)
 
-![ChainSentinel demo walkthrough](docs/demo/chainsentinel-demo.gif)
+</div>
 
-**▶ [Watch the full 90-second HD walkthrough](docs/demo/chainsentinel-demo.mp4)**  ·  live app, real database records
+https://github.com/user-attachments/assets/312a0e50-5215-46b2-8622-84a408196213
+
+<div align="center">
+
+*▶ 90-second walkthrough of the live app — real database records. ([download the MP4](docs/demo/chainsentinel-demo.mp4))*
 
 </div>
 

@@ -13,9 +13,9 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white)
 
-<img src="docs/screenshots/dashboard.png" alt="ChainSentinel dashboard" width="900">
+![ChainSentinel demo walkthrough](docs/demo/chainsentinel-demo.gif)
 
-*Multi-tenant monitoring operations room: live metrics, decoded events, alert severity breakdowns and RPC provider health — every number backed by real database records.*
+**▶ [Watch the full 90-second HD walkthrough](docs/demo/chainsentinel-demo.mp4)**  ·  live app, real database records
 
 </div>
 
